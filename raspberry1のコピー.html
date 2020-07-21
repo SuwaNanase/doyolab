@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="jp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>諏訪七星の研究ノート</title>
+    
+    <link rel="stylesheet" href="main.css">
+</head>
+
+
+<body>
+    <!--ホームに帰るためのボタン-->
+    <logotohome>
+    <a href="index.html"><img src="images/logo.png" alt=""></a>
+    </logotohome>
+
+    <!--h1は見出し１（大見出し）-->
+    <h1>raspberry pi の初期設定①</h1>
+    <br><br>
+
+    
+    <h2>①OS”raspbian”をパソコンにインストール</h2><br><br>
+
+    
+    <h3>
+    https://qiita.com/shippokun/items/9070fc58f69d8c063e44を参照に、<br><br>
+    raspbianを自分のパソコンにインストールしました。（インストール完了に大体１時間くらい）<br><br><br><br>
+    無事インストールできると、<br><br>
+    下記のように.zip形式でインストールされるので<br><br>
+    解凍して、.imgの形式にする。<br><br>
+    <img src = "images/raspbian1.png"width="50%" height="50%"></h3><br><br>
+    
+    
+<h2>②SDカードにコピーする </h2><br><br>
+    
+<h3>rapbianがインストールできたら、<br><br>
+    SDカードをパソコンに差し込み<br><br>
+    まずはじめに、SDカードのフォーマットの変更と<br>マウントを解除する。<br><br>
+    (写真を撮るのを忘れたのだが、<br>
+    macの場合はspotlightでDiskUtilityを検索して<br>
+    自分のSDカードを選択し、いったん消去してからマウントを解除する。)<br><br>
+    こんな感じに↓<br><br>
+    <img src = "images/raspberrypi 4.png"width="50%" height="50%"></h3><br><br>
+    
+                                                                                    >
+    <h3>
+    次に、ターミナルを開き、<br><br>
+    $ diskutil listを打ち込み<br><br>
+    自分のSDカードのディスクを確認する。<br><br>
+    
+     <img src = "images/raspbian3.png"width="50%" height="50%"><br><br>
+    
+
+    確認ができたら、<br><br>
+    $ diskutil unMountDisk /dev/disk2を打ち込む。<br><br>
+    ※ここで確認を怠り、間違ったものを入力すると
+    パソコン内のデータが全部ぶっ飛ぶので注意。<br><br><br><br>
+        
+    Unmount of all volumes on disk2 was successfulと表示されたら<br><br>
+    無事フォーマットが成功している！
+    <br><br><br><br>
+        
+        
+    そしたら<br><br>
+    再度$ diskutil unMountDisk /dev/disk2を入力し、<br><br>
+    $ sudo dd bs=1m if=2016-11-25-raspbian-jessie.img of=/dev/disk2を入力する。<br><br>
+    これで、SDカードにコピーすることが可能なのだが、<br><br>
+    このddコマンドは進捗状況が確認できないので<br><br>
+    定期的にCtrl+Tを押して確認する。（１０分くらいで完了する）<br><br><br><br><br><br>
+        
+    
+    以上今回は、raspberry piの初期設定①でした。
+ 
+
+    
+    </h3>
+    
+    
+        
+  
