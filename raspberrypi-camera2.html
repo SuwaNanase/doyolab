@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="jp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>諏訪七星の研究ノート</title>
+    
+    <link rel="stylesheet" href="main.css">
+</head>
+
+
+<body>
+    <!--ホームに帰るためのボタン-->
+    <logotohome>
+    <a href="index.html"><img src="images/IMG_8263.png" alt=""></a>
+    </logotohome>
+
+    <!--h1は見出し１（大見出し）-->
+    <h1>raspberrypi4 opencvの設定📸</h1><br><br>
+    
+     <img src = "images/IMG_8254.png"widge="607"height="409"><br>
+    <br><br><br>
+    
+    <h3>
+        ちなみに、opencvとは<br><br>
+        画像処理・画像解析および機械学習等の機能を持つ<br><br>
+        オープンソースのライブラリのこと！<br><br><br><br>
+        
+
+        カメラが人の顔か、そうでないかを
+        判断するには<br><br>
+        人の顔が含まれる画像の特徴をまとめたデータが必要である。<br><br>
+       
+    
+    ちなみに、ラズパイのカメラを動かすプログラムは<br><br>
+    <font color="#FF0000">"カスケード分類器”</font>という。<br><br><br>
+    この”カスケード分類器”が<br><br>
+    opencvには予め用意されているのだ。<br><br><br><br><br>
+        
+        
+        
+    さて、前置きはここまでにして<br><br>
+    
+    <a href="https://qiita.com/doyodoyo/items/1437fe6659c8492a5a9f">ラズパイ＆opencvで顔検知</a>を参照に<br><br>
+    raspberry piのopencvの設定を行う。<br><br><br><br>
+        
+        
+    しかし、いつ顔検知がされたのか<br><br>
+    はたまた、きちんと顔検知ができているのかがわからなかったので、<br><br>
+     <a href="https://www.pc-koubou.jp/magazine/19205">Raspberry PiとOpenCVによる画像認識で人の顔を判別する</a> を参照に<br><br>
+    顔検知は行った。<br><br><br><br>
+        
+    
+     <font color="#FF0099">◆顔と目に枠を描画するプログラム</font>  <br><br><br>
+    
+    次のコマンドをターミナル上に入力すると<br><br>
+    カメラが起動して映像が出力され<br><br>
+    一定時間経過すると、<br><br>
+    カメラが撮影を開始して画像を保存する。<br><br><br><br>
+    
+    ①「camface0.py」をvimで作成する画面を開く。<br><br>
+    <font color="#FFABCE">$ sudo vi camface0.py</font><br><br>
+     <img src = "images/IMG_8291.png"widge="607"height="409"><br><br><br><br>
+    
+    viエディタが開いたら<br><br>
+    「i」キーを押して「編集モードに」に移行し、<br><br>
+    下記のソースコードをコピー＆ペーストする。<br><br><br><br>
+     <div style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;">
+    # -*- coding: utf-8 -*-<br><br>
+import time<br><br>
+import picamera<br><br>
+import cv2 as cv<br><br>
+
+fn = 'my_pic.jpg'<br><br><br>
+
+# カメラ初期化<br><br>
+with picamera.PiCamera() as camera:<br><br><br>
+	# 解像度の設定<br><br>
+	camera.resolution = (512, 384)<br><br><br>
+	# 撮影の準備<br><br>
+	camera.start_preview()<br><br><br>
+	# 準備している間、少し待機する<br><br>
+	time.sleep(2)<br><br><br>
+	# 撮影して指定したファイル名で保存する<br><br>
+	camera.capture(fn)<br><br><br>
+
+	# 撮影した写真を読み込む<br><br>
+	img = cv.imread(fn)<br><br><br>
+
+	# 顔検出の処理効率化のために、写真の情報量を落とす（モノクロにする）<br><br>
+	grayimg = cv.cvtColor(img, cv.COLOR_BGR2GRAY)<br><br><br>
+
+	# 顔検出のための学習元データを読み込む<br><br>
+	face_cascade = cv.CascadeClassifier('haarcascades/haarcascade_frontalface_default.xml')<br><br><br>
+	# 目検出のための学習元データを読み込む<br><br>
+	eye_cascade = cv.CascadeClassifier('haarcascades/haarcascade_eye.xml')<br><br><br>
+	# 顔検出を行う<br><br>
+	facerect = face_cascade.detectMultiScale(grayimg, scaleFactor=1.2, minNeighbors=2, minSize=(1, 1))<br><br><br>
+	# 目検出を行う<br><br>
+	eyerect = eye_cascade.detectMultiScale(grayimg)<br><br><br>
+
+	print(facerect)<br><br>
+	print(eyerect)<br><br><br>
+
+	# 顔を検出した場合<br><br>
+	if len(facerect) > 0:<br><br><br>
+		# 検出した場所すべてに赤色で枠を描画する<br><br>
+		for rect in facerect:
+			cv.rectangle(img, tuple(rect[0:2]), tuple(rect[0:2]+rect[2:4]), (0, 0, 255), thickness=3)<br><br><br>
+
+	# 目を検出した場合<br><br>
+	if len(eyerect) > 0:<br><br><br>
+		# 検出した場所すべてに緑色で枠を描画する<br><br>
+		for rect in eyerect:
+			cv.rectangle(img, tuple(rect[0:2]), tuple(rect[0:2]+rect[2:4]), (0, 255, 0), thickness=3)<br><br><br>
+
+	# 結果の画像を表示する<br><br>
+	cv.imshow('camera', img)<br><br><br>
+	# 結果を書き出す<br><br>
+	cv.imwrite(fn, img)<br><br><br>
+	# 何かキーが押されるまで待機する<br><br>
+	cv.waitKey(0)<br><br><br>
+	# 表示したウィンドウを閉じる<br><br>
+	cv.destroyAllWindows()<br><br>
+</div>   
+    <br><br><br><br>
+        
+    ②プログラム実行<br><br><br>
+    
+    コピー＆ペーストができたら、<br><br>
+    「編集モード」から「Esc」キーを押して「コマンドモード」に切り替え、<br><br>
+    「Shift」キーを押しながら「z」キーボードを２回押してvimエディタを閉じる。<br><br>
+    
+
+    viエディタを閉じたら、<br><br>
+    いよいよプログラムを実行してみます！！<br><br>
+        
+
+    下記コマンドを入力してプログラムを実行する。<br><br>
+     <font color="#FFABCE">$ sudo python camface0.py</font>  <br><br>
+    
+    <img src = "images/IMG_8296.png"widge="607"height="409"><br><br><br><br>
+        
+    上手くいくと<br><br>
+    きちんと顔は赤枠、目は緑枠と認証するのですが<br><br>
+    あまり上手くいかず、<br><br>
+    はしごやTシャツも認識されるという事態が起きました笑<br><br><br>
+    
+    <img src = "images/IMG_8294.png"widge="607"height="409"><br><br><br><br>
+    
+    <img src = "images/IMG_8295.png"widge="607"height="409"><br><br><br><br>
+        
+    ここでわかったのは、<br><br>
+    いかに <font color="#FF1A6F">"正確に画像認識を行うことが難しいか”</font> を <br><br>
+    実感しました。。<br><br><br><br>
+        
+    次回は、この画像認識とAIを使って<br><br>
+    感情判定を行っていきます！
+        
+        
+    
+    
