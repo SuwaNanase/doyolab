@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="jp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>諏訪七星の研究ノート</title>
+    
+    <link rel="stylesheet" href="main.css">
+</head>
+
+
+<body>
+    <!--ホームに帰るためのボタン-->
+    <logotohome>
+    <a href="index.html"><img src="images/IMG_8619.png" alt=""></a>
+    </logotohome>
+
+    <!--h1は見出し１（大見出し）-->
+    <h1>raspberrypi4 条件分岐🐈</h1><br><br>
+    
+     <img src = "images/IMG_8254.png"widge="607"height="409"><br>
+    <br><br><br>
+    
+    <h3>
+       
+
+    下記の画像を参照にプログラムを書き込み、 <font color="#FF99CC">ボタンを押したら、LEDのライトが変わっていく</font>というプログラムを構成する<br><br><br><br>
+        
+     <img src = "images/スクリーンショット 2020-10-22 4.35.59.png"widge="607"height="409"><br>
+        
+        
+    <font color="#FF99CC">✳︎プログラム✳︎</font> <br><br><br>
+        
+    <code>
+    import RPi.GPIO as GPIO<br>
+    import time,sys<br><br>
+    
+        #ポート番号の指定<br>
+        RED＝17<br>
+        GREEN=27<br>
+        BLUE=22<br><br>
+        
+    #GPIOポートの初期化<br>
+    GPIO,set mode(GPIO,BCM)<br>
+    ports=[RED,GREEN,BLUE]<br>
+    For port in ports:<br>
+    GPIO.setup(port,GPIO.OUT)<br><br>
+        
+    #while Trueは無限ループ<br>
+while True:<br>
+    #入力<br>
+    val=input('入力（r,g,b) ---->')<br><br>
+    #if文で条件分岐<br>
+    if val=="r":<br>
+         # ここに光らせるコマンドを書く<br>
+        GPIO.output(RED,1)<br>
+        GPIO.output(GREEN,0)<br>
+        GPIO.output(BLUE,0)<br>
+        print("赤")<br><br>
+    elif val=="g":<br>
+        # ここに光らせるコマンドを書く<br>
+        GPIO.output(RED,0)<br>
+        GPIO.output(GREEN,1)<br>
+        GPIO.output(BLUE,0)<br>
+        print("緑")<br><br>
+    elif val=="b":<br>
+        # ここに光らせるコマンドを書く<br>
+        GPIO.output(RED,0)<br>
+        GPIO.output(GREEN,0)<br>
+        GPIO.output(BLUE,1)<br>
+        print("青")<br><br>
+        
+    else:<br>
+        sys.exit()<br><br>
+        
+    </code><br><br>
+    
+     <img src = "images/IMG_8620.png"widge="607"height="409"><br><br><br>
+    
+    <img src = "images/IMG_8621.png"widge="607"height="409"><br><br>
+        
+        
+     <font color="#FF99CC">✳︎実行✳︎</font> <br><br>
+        
+実行すると、キーボードのrを押せば<font color="#FF3300">「赤」</font><br>
+キーボードのgを押せば<font color="#006633">「緑」</font><br>
+キーボードのbを押せば<font color="#0033CC">「青」</font>となる！<br><br><br>
+        
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pCu6gT9Y7PU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br><br><br>
+        
