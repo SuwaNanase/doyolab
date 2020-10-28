@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="jp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>諏訪七星の研究ノート</title>
+    
+    <link rel="stylesheet" href="main.css">
+</head>
+
+
+<body>
+    <!--ホームに帰るためのボタン-->
+    <logotohome>
+    <a href="index.html"><img src="images/IMG_8684.png" alt=""></a>
+    </logotohome>
+
+    <!--h1は見出し１（大見出し）-->
+    <h1>raspberrypi4 条件分岐②🐈</h1><br><br>
+    
+     <img src = "images/IMG_8254.png"widge="607"height="409"><br>
+    <br><br><br>
+    
+    <h3>
+       
+
+    下記の画像を参照にプログラムを書き込み、 <font color="#FF99CC">ボタンを押したら、LEDのライトが変わりかつ猫の鳴き声が発せられる</font>というプログラムを構成する<br><br><br><br>
+        
+     <img src = "images/スクリーンショット 2020-10-22 4.35.59.png"widge="607"height="409"><br><br><br><br>
+        
+        
+    <font color="#FF99CC">✳︎プログラム✳︎</font> <br><br><br>
+     
+     <body>
+<h1>ソースコードの表示</h1>
+<code>import RPi.GPIO as GPIO<br>
+import time, sys<br>
+import pygame<br>
+import time<br><br><br>
+
+ 
+#ポート番号の指定<br>
+RED = 17<br>
+GREEN = 27<br>
+BLUE = 22<br>
+ 
+#GPIOポートの初期化<br>
+GPIO.setmode(GPIO.BCM)<br>
+ports = [RED, GREEN, BLUE]<br>
+for port in ports:<br>
+    GPIO.setup(port, GPIO.OUT)<br><br><br>
+
+#while Trueは無限ループ <br>  
+while True:<br>
+    #入力<br>
+    val=input('入力(r,g,b)---->')<br>
+    #if文で条件分岐<br>
+    if val=="r":<br>
+        #ここに光らせるコマンドを書く<br>
+        GPIO.output(RED,1)<br>
+        GPIO.output(GREEN,0)<br>
+        GPIO.output(BLUE, 0)<br>
+        print("赤")<br><br>
+        
+        pygame.mixer.init(frequency=44100)<br>
+        pygame.mixer.music.load("audio/cat1a.mp3")<br>
+        pygame.mixer.music.play(1)<br>
+        time.sleep(2)<br>
+        pygame.mixer.music.stop()<br><br><br>
+
+        
+        
+        
+        
+    elif val=="g":<br><br>
+        
+        #ここに光らせるコマンドを書く<br>
+        GPIO.output(RED,0)<br>
+        GPIO.output(GREEN,1)<br>
+        GPIO.output(BLUE,0)<br>
+        print("緑")<br><br>
+        
+        pygame.mixer.init(frequency=44100)<br>
+        pygame.mixer.music.load("audio/cat1b.mp3")<br>
+        pygame.mixer.music.play(1)<br>
+        time.sleep(2)<br>
+        pygame.mixer.music.stop()<br><br><br>
+
+        
+        
+    
+    elif val=="b":<br><br>
+        
+        #ここに光らせるコマンドを書く<br>
+        GPIO.output(RED,0)<br>
+        GPIO.output(GREEN,0)<br>
+        GPIO.output(BLUE,1) <br>
+        print("青")<br><br>
+        
+        pygame.mixer.init(frequency=44100)<br>
+        pygame.mixer.music.load("audio/old_cat1.mp3")<br>
+        pygame.mixer.music.play(1)<br>
+        time.sleep(2)<br>
+        pygame.mixer.music.stop()<br><br><br>
+
+        
+    else:<br>
+        sys.exit()<br><br>
+	
+</code><br>
+</body>   <br><br><br><br><br>
+      
+    
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/Uqea4eNIsMA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    
+    
+        
+    
+    
+     <br><br>
+    
+        
+     
