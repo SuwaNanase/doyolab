@@ -32,7 +32,112 @@
 <body>
 <h1>ソースコードの表示</h1>
 <code>
+import cognitive_face as CF<br>
+import json<br>
+import picamera<br>
+import time<br>
+import cv2 as cv<br>
+import pygame<br>
+import time<br>
+import RPi.GPIO as GPIO<br>
+import time, sys<br>
+import pygame<br>
+import time<br><br><br>
 
+ 
+#ポート番号の指定<br>
+RED = 17<br>
+GREEN = 27<br>
+BLUE = 22<br><br><br>
+ 
+#GPIOポートの初期化<br>
+GPIO.setmode(GPIO.BCM)<br>
+ports = [RED, GREEN, BLUE]<br>
+for port in ports:<br>
+    GPIO.setup(port, GPIO.OUT)<br><br><br>
+
+
+
+KEY = ''<br>
+ENDPOINT = ''<br><br>
+
+CF.Key.set(KEY)<br>
+CF.BaseUrl.set(ENDPOINT)<br><br>
+
+while True:<br>
+    with picamera.PiCamera() as camera:<br>
+        camera.resolution = (512,384)<br>
+        camera.capture('test.jpg')<br>
+        print('capture')<br>
+        img = cv.imread('test.jpg')<br>
+        grayimg = cv.cvtColor(img,cv.COLOR_BGR2GRAY)<br>
+        img = "test.jpg"<br>
+        faces = CF.face.detect(img, attributes='emotion')<br>
+        f=json.dumps(faces)<br>
+        j=json.loads(f)<br><br><br>
+
+        for i in range(0,len(j)):<br>
+            print(j[i]['faceAttributes']['emotion']['happiness'])<br><br>
+            
+            happiness_val = j[i]['faceAttributes']['emotion']['happiness']<br><br>
+            
+            if happiness_val > 0.5 :<br><br>
+                
+                GPIO.output(RED,0)<br>
+                GPIO.output(GREEN,1)<br>
+                GPIO.output(BLUE, 0)<br>
+                print("幸せ")<br><br>
+                
+                
+                pygame.mixer.init(frequency=44100)<br>
+                pygame.mixer.music.load("audio/cat1a.mp3")<br>
+                pygame.mixer.music.play(1)<br>
+                time.sleep(2)<br>
+                pygame.mixer.music.stop()<br><br><br>
+
+            for i in range(0,len(j)):<br>
+                print(j[i]['faceAttributes']['emotion']['sadness'])<br><br>
+            
+                sadness_val = j[i]['faceAttributes']['emotion']['sadness']<br><br>
+            
+                if sadness_val > 0.5 :<br><br>
+                
+                    GPIO.output(RED,0)<br>
+                    GPIO.output(GREEN,0)<br>
+                    GPIO.output(BLUE, 1)<br>
+                    print("悲しい")<br><br>
+                
+                
+                    pygame.mixer.init(frequency=44100)<br>
+                    pygame.mixer.music.load("audio/old_cat1.mp3")<br>
+                    pygame.mixer.music.play(1)<br>
+                    time.sleep(2)<br>
+                    pygame.mixer.music.stop()<br><br><br>
+                
+                   
+
+            for i in range(0,len(j)):<br>
+                print(j[i]['faceAttributes']['emotion']['anger'])<br>
+                anger_val = j[i]['faceAttributes']['emotion']['anger']<br><br>
+                        
+                if anger_val > 0.5 :<br><br>
+                
+                    GPIO.output(RED,1)<br>
+                    GPIO.output(GREEN,0)<br>
+                    GPIO.output(BLUE, 0)<br>
+                    print("怒ってる")<br><br>
+                
+                
+                    pygame.mixer.init(frequency=44100)<br>
+                    pygame.mixer.music.load("audio/purring.mp3")<br>
+                    pygame.mixer.music.play(1)<br>
+                    time.sleep(2)<br>
+                    pygame.mixer.music.stop()<br><br><br>
+
+    
+else:<br>
+    sys.exit()<br><br>
+        
 
     
 </code><br>
