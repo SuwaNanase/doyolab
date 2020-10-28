@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="jp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>諏訪七星の研究ノート</title>
+    
+    <link rel="stylesheet" href="main.css">
+</head>
+
+
+<body>
+    <!--ホームに帰るためのボタン-->
+    <logotohome>
+    <a href="index.html"><img src="images/IMG_8693.png" alt=""></a>
+    </logotohome>
+
+    <!--h1は見出し１（大見出し）-->
+    <h1>raspberrypi4 条件分岐⑤🐈</h1><br><br>
+    
+     <img src = "images/IMG_8254.png"widge="607"height="409"><br>
+    <br><br><br>
+    
+    <h3>
+       
+
+    今までのプログラムを応用させ、 <font color="#FF99CC">顔認識を使って、"happiness"の値だけを抽出し、その値が0.5以上の値であれば猫が鳴く</font>というプログラムを構成する<br><br><br><br>
+        
+    
+        
+     
+<body>
+<h1>ソースコードの表示</h1>
+<code>
+import cognitive_face as CF<br>
+import json<br>
+import picamera<br>
+import time<br>
+import cv2 as cv<br>
+import pygame<br>
+import time<br><br><br>
+
+
+KEY = ''<br>
+ENDPOINT = ''<br><br>
+
+CF.Key.set(KEY)<br>
+CF.BaseUrl.set(ENDPOINT)<br><br>
+
+while True:<br>
+    with picamera.PiCamera() as camera:<br>
+        camera.resolution = (512,384)<br>
+        camera.capture('test.jpg')<br>
+        print('capture')<br>
+        img = cv.imread('test.jpg')<br>
+        grayimg = cv.cvtColor(img,cv.COLOR_BGR2GRAY)<br>
+        img = "test.jpg"<br>
+        faces = CF.face.detect(img, attributes='emotion')<br>
+        f=json.dumps(faces)<br>
+        j=json.loads(f)<br><br>
+
+        for i in range(0,len(j)):<br>
+            print(j[i]['faceAttributes']['emotion']['happiness'])<br><br>
+            
+            happiness_val = j[i]['faceAttributes']['emotion']['happiness']<br><br>
+            
+            if happiness_val > 0.5 :<br>
+                pygame.mixer.init(frequency=44100)<br>
+                pygame.mixer.music.load("audio/cat1a.mp3")<br>
+                pygame.mixer.music.play(1)<br>
+                time.sleep(2)<br>
+                pygame.mixer.music.stop()<br><br><br>
+            
+
+    
+else:<br>
+    sys.exit()<br>
+        
+    
+</code><br>
+</body>   <br><br><br><br><br>
+      
+    
+   
+        
+     
