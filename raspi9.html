@@ -33,6 +33,43 @@
 <body>
 <h1>ソースコードの表示</h1>
 <code>
+import cognitive_face as CF<br>
+import json<br>
+import picamera<br>
+import time<br>
+import cv2 as cv<br><br>
+
+KEY = ''<br>
+ENDPOINT = ''<br><br>
+
+CF.Key.set(KEY)<br>
+CF.BaseUrl.set(ENDPOINT)<br><br><br>
+
+while True:<br>
+    with picamera.PiCamera() as camera:<br>
+        camera.resolution = (512,384)<br>
+        camera.capture('test.jpg')<br>
+        print('capture')<br>
+        img = cv.imread('test.jpg')<br>
+        grayimg = cv.cvtColor(img,cv.COLOR_BGR2GRAY)<br>
+        img = "test.jpg"<br>
+        faces = CF.face.detect(img, attributes='emotion')<br>
+        f=json.dumps(faces)<br>
+        j=json.loads(f)<br><br>
+
+        for i in range(0,len(j)):<br>
+            print(j[i]['faceAttributes']['emotion']['happiness'])<br><br>
+            
+            happiness_val = j[i]['faceAttributes']['emotion']['happiness']<br><br>
+            
+            if happiness_val > 0.5 :<br><br>
+            
+                print ("幸せ")<br><br>
+    
+else:<br>
+    sys.exit()<br><br><br>
+        
+
  
 </code><br>
 </body>   <br><br><br><br><br>
