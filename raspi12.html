@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="jp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>諏訪七星の研究ノート</title>
+    
+    <link rel="stylesheet" href="main.css">
+</head>
+
+
+<body>
+    <!--ホームに帰るためのボタン-->
+    <logotohome>
+    <a href="index.html"><img src="images/IMG_8766.JPG" alt=""></a>
+    </logotohome>
+
+    <!--h1は見出し１（大見出し）-->
+    <h1>raspberrypi4 自動起動への挑戦</h1><br><br>
+    
+     <img src = "images/IMG_8254.png"widge="607"height="409"><br>
+    <br><br><br>
+    
+    <h3>
+       
+
+    今回は今までのプログラムを <font color="#FF99CC">ラズパイをディスプレイに繋げずに、カメラを向ければ自動的にPythonが動き出す</font>というプログラムを構成する<br><br><br><br>
+        
+    しかし<br><br>
+        
+    先生と一緒にやるも<br>
+    <font color="#ff0000">努力虚しく失敗に終わった。。。</font><br><br><br><br>
+        
+        
+        
+    だが、<br><br>
+    <a href="https://qiita.com/karaage0703/items/ed18f318a1775b28eab4">Raspberry Piでプログラムを自動起動する5種類の方法を比較・解説</a>を参照に行った<br><br>
+    <font color="#ff0000">目のプログラム</font>と<font color="#ff0000">簡単な時刻のプログラムは実行できた。</font><br><br><br><br>
+        
+        
+    その後も何度か別のサイトを参照にしながら行ったりもしたが、できない。<br><br><br><br>
+        
+    原因がわからないまま終わった。<br><br><br><br><br><br><br><br>
+        
+        
+    
+    ✳︎<font color="#FF99CC">目のプログラム</font><br><br>
+        
+    <code>
+<ol style="list-style:decimal-leading-zero outside;in-left:0;padding-left:36px;margin:0;background-color:#EEF;color:#000;">
+<li style="background-color:#EFF;">$ mkdir -p ~/.config/lxsession/LXDE-pi</li>
+<li style="background-color:#EEF;">$ cp /etc/xdg/lxsession/LXDE-pi/autostart ~/.config/lxsession/LXDE-pi/</li>
+<li style="background-color:#EFF;"></li>
+<li style="background-color:#EEF;">$ sudo apt-get update</li>
+<li style="background-color:#EFF;">$ sudo apt-get install x11-apps</li>
+<li style="background-color:#EEF;"></li>
+<li style="background-color:#EFF;">$ echo <font style="color:brown;">'/usr/bin/xeyes'</font> &gt;&gt; ~/.config/lxsession/LXDE-pi/autostart</li>
+</ol></code><br><br><br><br>
+        
+        
+
+        
+✳︎<font color="#FF99CC">時刻のプログラム</font><br><br>        
+        
+
+        
+<code>
+<ol style="list-style:decimal-leading-zero outside;in-left:0;padding-left:36px;margin:0;background-color:#EEF;color:#000;">
+<li style="background-color:#EFF;">$ sudo nano /etc/rc.local</li>
+<li style="background-color:#EEF;">$ sudo systemctl daemon-reload</li>
+<li style="background-color:#EFF;">$ sudo systemctl start test.service</li>
+<li style="background-color:#EEF;">$ sudo systemctl status test.service</li>
+<li style="background-color:#EFF;">$ sudo systemctl stop test servise</li>
+</ol></code>
+    
+    
+     
