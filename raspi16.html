@@ -54,4 +54,67 @@
     
         
     ✳︎プログラム <br><br>
+     import cognitive_face as CF
+import json
+import picamera
+import time
+import cv2 as cv
+import pygame
+import time
+import RPi.GPIO as GPIO
+import time, sys
+import pygame
+import time
+ 
+#ポート番号の指定
+RED = 17
+GREEN = 27
+BLUE = 22
+ 
+#GPIOポートの初期化
+GPIO.setmode(GPIO.BCM)
+ports = [RED, GREEN, BLUE]
+for port in ports:
+    GPIO.setup(port, GPIO.OUT)
+KEY = ''
+ENDPOIN = ''
+CF.Key.set(KEY)
+CF.BaseUrl.set(ENDPOINT)
+while True:
+    with picamera.PiCamera() as camera:
+        camera.resolution = (512,384)
+        camera.capture('test.jpg')
+        print('capture')
+        img = cv.imread('test.jpg')
+        grayimg = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+        img = "test.jpg"
+        faces = CF.face.detect(img, attributes='emotion')
+        f=json.dumps(faces)
+        j=json.loads(f)
+        for i in range(0,len(j)):
+            print(j[i]['faceAttributes']['emotion']['happiness'])
+            happiness_val = j[i]['faceAttributes']['emotion']['happiness']
+            
+            
+            
+            if happiness_val < 0.5 :
+                
+                GPIO.output(RED,0)
+                GPIO.output(GREEN,1)
+                GPIO.output(BLUE, 0)
+                print("幸せ")
+                
+                
+                pygame.mixer.init(frequency=44100)
+                pygame.mixer.music.load("/home/pi/mypython/camera/audio/cat1a.mp3")
+                pygame.mixer.music.play(1)
+                time.sleep(5)
+                pygame.mixer.music.stop()
+                
+                
+                GPIO.output(RED,0)
+                GPIO.output(GREEN,0)
+                GPIO.output(BLUE, 0)
+                   
+      
  
