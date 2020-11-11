@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="jp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>諏訪七星の研究ノート</title>
+    
+    <link rel="stylesheet" href="main.css">
+</head>
+
+
+<body>
+    <!--ホームに帰るためのボタン-->
+    <logotohome>
+    <a href="index.html"><img src="images/IMG_9011.png" alt=""></a>
+    </logotohome>
+
+    <!--h1は見出し１（大見出し）-->
+    <h1>raspberrypi4 放置プレイな猫のプログラム </h1><br><br>
+    
+     <img src = "images/IMG_8254.png"widge="607"height="409"><br>
+    <br><br><br>
+    
+    <h3>
+       
+
+    今回は<br><br>
+    <font color="#FF3399">ずっとほっとかれたら鳴く</font><br><br>
+    というプログラムを実験的に書いてみた。<br><br>
+        
+    しかし、<br><br>
+    なんだろう。<br><br><br><br>
+    <font color="#FF3399">まあとにかくうざい！！</font><br><br>
+    というのが正直な感想だ。<br><br><br><br><br><br>
+        
+    今回は
+    <font color="#FF3399">happiness_val＜ 0.5</font><br>
+    と定義したのだが<br><br>
+        
+    まあ人間<br><br>
+    ほとんどの表情が0.5以下であるため<br><br>
+    結局ほとんど鳴いていることになる<br><br><br><br>
+    
+    こうなってくると<br><br>
+    
+    <font color="#FF3399">ウザさが圧倒的に勝つため<br><br>
+    そもそもこのロボットの存在意義がわからなくなってきた</font>。<br><br> <br><br>
+        
+    
+    自分は<font color="#FF3399">”どういったものが作りたかったのか</font><br><br>
+    はたまた<br><br>
+    <font color="#FF3399">このロボットで何がしたかったのか</font><br><br>
+    を今一度再確認する必要がありそうだ。<br><br><br><br><br><br>
+    
+        
+    ✳︎プログラム <br><br>
+  <code>
+<ol style="list-style:decimal-leading-zero outside;in-left:0;padding-left:36px;margin:0;background-color:#EEF;color:#000;">
+<li style="background-color:#EFF;">import cognitive_face as CF</li>
+<li style="background-color:#EEF;">import json</li>
+<li style="background-color:#EFF;">import picamera</li>
+<li style="background-color:#EEF;">import time</li>
+<li style="background-color:#EFF;">import cv2 as cv</li>
+<li style="background-color:#EEF;">import pygame</li>
+<li style="background-color:#EFF;">import time</li>
+<li style="background-color:#EEF;">import RPi.GPIO as GPIO</li>
+<li style="background-color:#EFF;">import time, sys</li>
+<li style="background-color:#EEF;">import pygame</li>
+<li style="background-color:#EFF;">import time</li>
+<li style="background-color:#EEF;"></li>
+<li style="background-color:#EFF;">&nbsp;</li>
+<li style="background-color:#EEF;">#ポート番号の指定</li>
+<li style="background-color:#EFF;">RED = 17</li>
+<li style="background-color:#EEF;">GREEN = 27</li>
+<li style="background-color:#EFF;">BLUE = 22</li>
+<li style="background-color:#EEF;">&nbsp;</li>
+<li style="background-color:#EFF;">#GPIOポートの初期化</li>
+<li style="background-color:#EEF;">GPIO.setmode(GPIO.BCM)</li>
+<li style="background-color:#EFF;">ports = [RED, GREEN, BLUE]</li>
+<li style="background-color:#EEF;">for port in ports:</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;GPIO.setup(port, GPIO.OUT)</li>
+<li style="background-color:#EEF;"></li>
+<li style="background-color:#EFF;"></li>
+<li style="background-color:#EEF;"></li>
+<li style="background-color:#EFF;">KEY = <font style="color:brown;">''</font></li>
+<li style="background-color:#EEF;">ENDPOIN = <font style="color:brown;">''</font></li>
+<li style="background-color:#EFF;"></li>
+<li style="background-color:#EEF;">CF.Key.set(KEY)</li>
+<li style="background-color:#EFF;">CF.BaseUrl.set(ENDPOINT)</li>
+<li style="background-color:#EEF;"></li>
+<li style="background-color:#EFF;">while True:</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;with picamera.PiCamera() as camera:</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;camera.resolution = (512,384)</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;camera.capture(<font style="color:brown;">'test.jpg'</font>)</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(<font style="color:brown;">'capture'</font>)</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img = cv.imread(<font style="color:brown;">'test.jpg'</font>)</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grayimg = cv.cvtColor(img,cv.COLOR_BGR2GRAY)</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img = <font style="color:brown;">"test.jpg"</font></li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;faces = CF.face.detect(img, attributes=<font style="color:brown;">'emotion'</font>)</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f=json.dumps(faces)</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j=json.loads(f)</li>
+<li style="background-color:#EEF;"></li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for i in range(0,len(j)):</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(j[i][<font style="color:brown;">'faceAttributes'</font>][<font style="color:brown;">'emotion'</font>][<font style="color:brown;">'happiness'</font>])</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;happiness_val = j[i][<font style="color:brown;">'faceAttributes'</font>][<font style="color:brown;">'emotion'</font>][<font style="color:brown;">'happiness'</font>]</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if happiness_val &lt; 0.5 :</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPIO.output(RED,0)</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPIO.output(GREEN,1)</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPIO.output(BLUE, 0)</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(<font style="color:brown;">"幸せ"</font>)</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pygame.mixer.init(frequency=44100)</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pygame.mixer.music.load(<font style="color:brown;">"/home/pi/mypython/camera/audio/cat1a.mp3"</font>)</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pygame.mixer.music.play(1)</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.sleep(5)</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pygame.mixer.music.stop()</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPIO.output(RED,0)</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPIO.output(GREEN,0)</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPIO.output(BLUE, 0)</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+<li style="background-color:#EFF;"></li>
+<li style="background-color:#EEF;"></li>
+<li style="background-color:#EFF;"></li>
+</ol></code>  
+
+    
+ 
